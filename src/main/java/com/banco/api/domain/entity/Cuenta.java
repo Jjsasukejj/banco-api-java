@@ -1,11 +1,26 @@
 package com.banco.api.domain.entity;
 
+import java.math.BigDecimal;
+
 import com.banco.api.domain.enums.EstadoCuenta;
 import com.banco.api.domain.enums.TipoCuenta;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import java.math.BigDecimal;
 
 @Entity
 @Table(
@@ -29,7 +44,7 @@ public class Cuenta {
 	/**
      * Numero de cuenta visible al usuario, se marca como unico, pero no es la PK.
      */
-	@NotNull(message = "El numero de cuenta es obligatorio")
+	@NotBlank(message = "El numero de cuenta es obligatorio")
     @Column(name = "numero_cuenta", length = 30, nullable = false, unique = true)
     private String numeroCuenta;
 	
@@ -57,7 +72,7 @@ public class Cuenta {
      * FetchType.LAZY para evitar cargas innecesarias.
      */
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "FK_cuentas_clientes"))
     private Cliente cliente;
 	
 	//Constructor vacio, esto por que JPA lo requiere

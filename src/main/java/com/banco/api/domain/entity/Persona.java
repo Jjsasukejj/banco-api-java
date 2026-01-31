@@ -5,13 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Table(
-		name = "personas",
-		indexes = {
-				//Indice para busquedas frecuentes por identificacion
-				@Index(name = "ix_personas_identificacion", columnList = "identificacion", unique = true)
-		}
-		)
+@Table(name = "personas")
 @Inheritance(strategy = InheritanceType.JOINED)
 
 /**
@@ -23,7 +17,7 @@ public class Persona {
 	//PK tecnica
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "perona_id")
+	@Column(name = "persona_id")
 	private Long id;
 	
 	@NotBlank(message = "El nombre es obligatorio")
@@ -45,7 +39,7 @@ public class Persona {
 	//Campo identificacion es un dato unico.
 	@NotBlank(message = "La identificacion es obligatoria")
     @Size(max = 10, message = "La identificacion no debe exceder 10 caracteres")
-    @Column(name = "identificacion", length = 20, nullable = false, unique = true)
+    @Column(name = "identificacion", length = 10, nullable = false, unique = true)
     private String identificacion;
 	
 	@NotBlank(message = "La direccion es obligatoria")

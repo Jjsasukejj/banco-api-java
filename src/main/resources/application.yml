@@ -1,0 +1,20 @@
+server:
+  port: 8080  # Puerto donde expone el microservicio
+
+spring:
+  datasource:
+    # URL de conexión a SQL Server en Docker
+    url: jdbc:sqlserver://localhost:1433;databaseName=BancoDb;encrypt=true;trustServerCertificate=true
+    username: sa
+    password: SqlServer@123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    hibernate:
+      #TEMPORAL: permite que Hibernate cree/actualice tablas
+      #Valor en 'none' y usaremos SQL manual
+      ddl-auto: validate
+    show-sql: true          # Muestra SQL en consola
+    properties:
+      hibernate:
+        "[format_sql]": true    # SQL legible en logs

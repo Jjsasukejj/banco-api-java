@@ -1,7 +1,13 @@
 package com.banco.api.domain.entity;
 
 import com.banco.api.domain.enums.EstadoCliente;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,8 +26,8 @@ public class Cliente extends Persona {
 	 * En un sistema real no se guarda en texto plano, se debe guardar como hash(BCrypt, Argon2, etc)
 	 */
 	@NotBlank(message = "La contraseña es obligatoria")
-    @Size(min = 4, max = 10, message = "La contraseña debe tener entre 4 y 10 caracteres")
-    @Column(name = "contrasena", length = 100, nullable = false)
+    @Size(max = 255, message = "La contraseña no debe exceder 255 caracteres")
+    @Column(name = "contrasena", length = 255, nullable = false)
 	private String contrasena;
 	
 	@NotNull(message = "El estado es obligatorio")

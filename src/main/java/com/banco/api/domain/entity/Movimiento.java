@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 )
 /**
  * Entidad Movimiento
- * Representa uns transaccion financiera sobre una cuenta, puede ser deposito o retiro
+ * Representa una transaccion financiera sobre una cuenta, puede ser deposito o retiro
  */
 public class Movimiento {
 	// PK tecnica
@@ -32,7 +32,7 @@ public class Movimiento {
      */
 	@NotNull(message = "La cuenta es obligatoria")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cuenta_id", nullable = false)
+    @JoinColumn(name = "cuenta_id", nullable = false, foreignKey = @ForeignKey(name = "FK_movimientos_cuentas"))
     private Cuenta cuenta;
 	
 	@NotNull(message = "El tipo de movimiento es obligatorio")
