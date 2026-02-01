@@ -1,18 +1,22 @@
 package com.banco.api.service.impl;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.banco.api.domain.entity.Cuenta;
 import com.banco.api.domain.entity.Movimiento;
 import com.banco.api.domain.enums.EstadoCuenta;
 import com.banco.api.domain.enums.TipoMovimiento;
+import com.banco.api.dto.response.ReporteMovimientoResponse;
 import com.banco.api.exception.BusinessException;
 import com.banco.api.repository.CuentaRepository;
 import com.banco.api.repository.MovimientoRepository;
 import com.banco.api.service.MovimientoService;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * implementacion del servicio de movimiento, se aplica las reglas de negocio relacionadas al movimiento bancario.
@@ -55,7 +59,7 @@ public class MovimientoServiceImpl implements MovimientoService{
 		
 		//Regla: no permitir saldo negativo
         if (cuenta.getSaldo().compareTo(monto) < 0) {
-            throw new BusinessException("Saldo insuficiente");
+            throw new BusinessException("Saldo no disponible");
         }
         
         //Regla: validar cupo diario de retiro
@@ -66,7 +70,7 @@ public class MovimientoServiceImpl implements MovimientoService{
         BigDecimal totalRetirosHoy = movimientoRepository.sumMontoByCuentaAndTipoAndFechaBetween(cuenta.getId(), TipoMovimiento.RETIRO, inicioDia, finDia);
         
         if (totalRetirosHoy.add(monto).compareTo(CUPO_DIARIO_RETIRO) > 0) {
-            throw new BusinessException("Cupo diario de retiro excedido");
+            throw new BusinessException("Cupo diario excedido");
         }
 
         BigDecimal nuevoSaldo = cuenta.getSaldo().subtract(monto);
@@ -77,6 +81,59 @@ public class MovimientoServiceImpl implements MovimientoService{
         Movimiento movimiento = crearMovimiento(cuenta, TipoMovimiento.RETIRO, monto, nuevoSaldo);
         
 		return movimientoRepository.save(movimiento);
+	}
+	
+	/**
+	 * Genera el reporte de movimientos por cliente y rango de fechas
+	 * @param clienteId
+	 * @param fechaInicio
+	 * @param fechaFin
+	 * @return
+	 */
+	public List<ReporteMovimientoResponse> reporteMovimientosPorCliente(Long clienteId, LocalDate fechaInicio, LocalDate fechaFin) {
+		// Convertimos el rango de fechas a rango de LocalDateTime para incluir todo el dia (desde 00:00 hasta 23:59:59)
+	    LocalDateTime desde = fechaInicio.atStartOfDay();
+	    LocalDateTime hasta = fechaFin.atTime(23, 59, 59);
+
+	    // Consultamos los movimientos del cliente en ese rango
+	    List<Movimiento> movimientos = movimientoRepository.findByClienteAndFechaBetween(
+	            clienteId, desde, hasta
+	    );
+
+	    // Mapeamos cada Movimiento a la fila de reporte solicitada
+	    return movimientos.stream()
+	            .map(this::toReporteDto)
+	            .toList();
+	}
+	
+	/**
+	 * Mapper interno que convierte un Movimiento a la estructura del reporte
+	 * @param m
+	 * @return
+	 */
+	private ReporteMovimientoResponse toReporteDto(Movimiento m) {
+		ReporteMovimientoResponse dto = new ReporteMovimientoResponse();
+
+	    dto.setFecha(m.getFecha().toLocalDate());
+	    
+	    // Datos del cliente y cuenta
+	    dto.setCliente(m.getCuenta().getCliente().getNombre());
+	    dto.setNumeroCuenta(m.getCuenta().getNumeroCuenta());
+	    dto.setTipoCuenta(m.getCuenta().getTipoCuenta());
+	    dto.setEstado(m.getCuenta().getEstado());
+	    
+	    //Movimiento con signo
+	    BigDecimal movimientoConSigno = (m.getTipo() == TipoMovimiento.RETIRO) ? m.getMonto().negate() : m.getMonto();
+	    
+	    dto.setMovimiento(movimientoConSigno);
+	    
+	    //Saldo disponible
+	    dto.setSaldoDisponible(m.getSaldoPosterior());
+	    
+	    //Saldo inicial
+	    dto.setSaldoInicial(m.getSaldoPosterior().subtract(movimientoConSigno));
+	    
+	    return dto;
 	}
 	
 	/**

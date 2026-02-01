@@ -1,15 +1,20 @@
 package com.banco.api.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.banco.api.domain.entity.Cliente;
 import com.banco.api.domain.entity.Cuenta;
 import com.banco.api.domain.enums.EstadoCuenta;
+import com.banco.api.dto.request.ActualizarCuentaRequest;
 import com.banco.api.exception.BusinessException;
 import com.banco.api.exception.NotFoundException;
 import com.banco.api.repository.ClienteRepository;
 import com.banco.api.repository.CuentaRepository;
 import com.banco.api.service.CuentaService;
-import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
+
 /**
  * implementacion del servicio de cuenta, se aplica las reglas de negocio relacionadas a la cuenta.
  */
@@ -25,6 +30,7 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
 	@Override
+	@Transactional
 	public Cuenta crearCuenta(Long clienteId, Cuenta cuenta) {
 		
 		Cliente cliente = clienteRepository.findById(clienteId)
@@ -36,7 +42,7 @@ public class CuentaServiceImpl implements CuentaService {
 		}
 		
 		//Regla: toda cuenta nueva inicia con saldo 0 y estado ACTIVA
-		cuenta.setSaldo(BigDecimal.ZERO);
+		cuenta.setSaldo(cuenta.getSaldo());
 		cuenta.setEstado(EstadoCuenta.ACTIVA);
 		cuenta.setCliente(cliente);
 		
@@ -47,6 +53,34 @@ public class CuentaServiceImpl implements CuentaService {
 	public Cuenta obtenerCuentaPorNumero(String numeroCuenta) {
 		return cuentaRepository.findByNumeroCuenta(numeroCuenta)
 				.orElseThrow(() -> new NotFoundException("Cuenta no encontrada"));
+	}
+
+	@Override
+	public List<Cuenta> listarCuentasPorCliente(Long clienteId) {
+		return cuentaRepository.findByClienteId(clienteId);
+	}
+
+	@Override
+	@Transactional
+	public Cuenta actualizarCuenta(String numeroCuenta, ActualizarCuentaRequest request) {
+		
+		Cuenta cuenta = obtenerCuentaPorNumero(numeroCuenta);
+		
+		cuenta.setTipoCuenta(request.getTipoCuenta());
+        cuenta.setEstado(request.getEstado());
+        
+		return cuentaRepository.save(cuenta);
+	}
+
+	@Override
+	@Transactional
+	public void eliminarCuenta(String numeroCuenta) {
+		
+		Cuenta cuenta = obtenerCuentaPorNumero(numeroCuenta);
+		
+		cuenta.setEstado(EstadoCuenta.INACTIVA);
+        cuentaRepository.save(cuenta);
+		
 	}
 
 }

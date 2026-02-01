@@ -46,4 +46,23 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long> {
 	            @Param("desde") LocalDateTime desde,
 	            @Param("hasta") LocalDateTime hasta
 	    );
+	
+	/**
+	 * Reporte: lista movimientos por cliente (usuario) y rango de fechas.
+	 * JOIN FETCH se usa para evitar LazyLoading fuera de la transaccion y para reducir N+1 queries cuando mapeamos a DTO.
+	 */
+	@Query("""
+			  SELECT m
+			  FROM Movimiento m
+			  JOIN FETCH m.cuenta c
+			  JOIN FETCH c.cliente cl
+			  WHERE cl.id = :clienteId
+			    AND m.fecha BETWEEN :desde AND :hasta
+			  ORDER BY m.fecha DESC
+			""")
+	List<Movimiento> findByClienteAndFechaBetween(
+	        @Param("clienteId") Long clienteId,
+	        @Param("desde") LocalDateTime desde,
+	        @Param("hasta") LocalDateTime hasta
+	);
 }

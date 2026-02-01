@@ -2,6 +2,7 @@ package com.banco.api.service.impl;
 
 import com.banco.api.domain.entity.Cliente;
 import com.banco.api.domain.enums.EstadoCliente;
+import com.banco.api.dto.request.ActualizarClienteRequest;
 import com.banco.api.exception.BusinessException;
 import com.banco.api.exception.NotFoundException;
 import com.banco.api.repository.ClienteRepository;
@@ -49,5 +50,19 @@ public class ClienteServiceImpl implements ClienteService {
 		cliente.setEstado(EstadoCliente.INACTIVO);
 		clienteRepository.save(cliente);
 		
+	}
+
+	@Override
+	public Cliente actualizarCliente(Long id, ActualizarClienteRequest request) {
+		
+		Cliente cliente = clienteRepository.findById(id)
+				.orElseThrow(() -> new BusinessException("Cliente no encontrado"));
+		
+		cliente.setNombre(request.getNombre());
+	    cliente.setDireccion(request.getDireccion());
+	    cliente.setTelefono(request.getTelefono());
+	    cliente.setEstado(request.getEstado());
+	    
+		return clienteRepository.save(cliente);
 	}
 }

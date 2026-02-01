@@ -1,7 +1,9 @@
 package com.banco.api.service;
 
-import com.banco.api.domain.entity.Cliente;
 import java.util.List;
+
+import com.banco.api.domain.entity.Cliente;
+import com.banco.api.dto.request.ActualizarClienteRequest;
 /**
  * Servicio de Cliente, define las operaciones de negocio relacionadas con clientes.
  */
@@ -28,4 +30,11 @@ public interface ClienteService {
 	 * @param id
 	 */
 	void inactivarCliente(Long id);
+	/**
+	 * Intefaz para actualizar un cliente
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	Cliente actualizarCliente(Long id, ActualizarClienteRequest request);
 }
