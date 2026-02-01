@@ -1,7 +1,6 @@
 package com.banco.api.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.banco.api.dto.response.ReporteMovimientoResponse;

@@ -21,7 +21,7 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long> {
 	 * @param hasta
 	 * @return
 	 */
-	List<Movimiento> findByCuentaIdAndFecha(Long cuentaId, LocalDateTime desde, LocalDateTime hasta);
+	List<Movimiento> findByCuentaIdAndFechaBetween(Long cuentaId, LocalDateTime desde, LocalDateTime hasta);
 	/**
 	 * Suma el total de movimientos por tipo en un rango
 	 * Controla el cupo diario, suma los retiros del dia y comparamos contra el limite permitido 
