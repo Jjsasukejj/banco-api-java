@@ -1,0 +1,452 @@
+{
+  "info": {
+    "_postman_id": "e48d4380-531c-43fb-9c34-a2cc9a6931f0",
+    "name": "BancoSolution API",
+    "description": "Coleccion de Endpoints para la Api BancoSolution, incluye\n\nClientes, Cuentas, Movimientos y Reportes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45068724",
+    "_collection_link": "https://go.postman.co/collection/45068724-e48d4380-531c-43fb-9c34-a2cc9a6931f0?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "- Crear Cliente",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan Osorio\",\n  \"genero\": \"MASCULINO\",\n  \"edad\": 25,\n  \"identificacion\": \"1722345637\",\n  \"direccion\": \"13 junio y Equinoccial\",\n  \"telefono\": \"098874587\",\n  \"contrasena\": \"1245\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{servidor}}:{{puerto}}/api/clientes",
+              "protocol": "http",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Listar Clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{servidor}}:{{puerto}}/api/clientes",
+              "protocol": "http",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Obtener por ClienteId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{servidor}}:{{puerto}}/api/clientes/1",
+              "protocol": "http",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Eliminar Cliente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{servidor}}:{{puerto}}/api/clientes/1",
+              "protocol": "http",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Actualizar Cliente",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Jose Lema Actualizado 2\",\n  \"direccion\": \"Av. Amazonas y Colon\",\n  \"telefono\": \"0999999999\",\n  \"estado\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{servidor}}:{{puerto}}/api/clientes/1",
+              "protocol": "http",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cuentas",
+      "item": [
+        {
+          "name": "- Crear Cuenta",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroCuenta\": \"496825\",\n  \"tipoCuenta\": \"AHORROS\",\n  \"saldoInicial\": 540,\n  \"estado\": \"ACTIVA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/cuentas/cliente/2",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "cuentas",
+                "cliente",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Actualizar Cuenta",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoCuenta\": \"AHORROS\",\n  \"estado\": \"ACTIVA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/cuentas/495878",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "cuentas",
+                "495878"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Eliminar Cuenta",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoCuenta\": \"AHORROS\",\n  \"estado\": \"ACTIVA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/cuentas/495878",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "cuentas",
+                "495878"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Obtener cuenta por N Cuenta",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoCuenta\": 1,\n  \"saldoInicial\": 3000,\n  \"estado\": true,\n  \"clienteId\": \"CLI001\"\n}"
+            },
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/cuentas/495878",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "cuentas",
+                "495878"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Listar Cuentas por Cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/cuentas/cliente/2",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "cuentas",
+                "cliente",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Movimientos",
+      "item": [
+        {
+          "name": "- CrearDeposito",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"monto\": 3000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/movimientos/depositos/496825",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "movimientos",
+                "depositos",
+                "496825"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- CrearRetiro",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"monto\": 999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/movimientos/retiros/496825",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "movimientos",
+                "retiros",
+                "496825"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reportes",
+      "item": [
+        {
+          "name": "- Obtener Reporte",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/movimientos/reporte?clienteId=2&fechaInicio=2026-01-12&fechaFin=2026-01-31",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "movimientos",
+                "reporte"
+              ],
+              "query": [
+                {
+                  "key": "clienteId",
+                  "value": "2"
+                },
+                {
+                  "key": "fechaInicio",
+                  "value": "2026-01-12"
+                },
+                {
+                  "key": "fechaFin",
+                  "value": "2026-01-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "- Obtener Reporte PDF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{servidor}}:{{puerto}}/api/movimientos/reporte/pdf?clienteId=1&fechaInicio=2026-01-12&fechaFin=2026-01-31",
+              "host": [
+                "{{servidor}}"
+              ],
+              "port": "{{puerto}}",
+              "path": [
+                "api",
+                "movimientos",
+                "reporte",
+                "pdf"
+              ],
+              "query": [
+                {
+                  "key": "clienteId",
+                  "value": "1"
+                },
+                {
+                  "key": "fechaInicio",
+                  "value": "2026-01-12"
+                },
+                {
+                  "key": "fechaFin",
+                  "value": "2026-01-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "servidor",
+      "value": ""
+    },
+    {
+      "key": "puerto",
+      "value": ""
+    }
+  ]
+}
