@@ -142,7 +142,7 @@ public class MovimientoServiceImpl implements MovimientoService{
 	 * @return
 	 */
 	private Cuenta obtenerCuentaActiva(String numeroCuenta) {
-		Cuenta cuenta = cuentaRepository.findByNumeroCuenta(numeroCuenta)
+		Cuenta cuenta = cuentaRepository.findByNumeroCuentaFetchCliente(numeroCuenta)
 				.orElseThrow(() -> new BusinessException("Cuenta no encontrada"));
 		
 		if (cuenta.getEstado() != EstadoCuenta.ACTIVA) {

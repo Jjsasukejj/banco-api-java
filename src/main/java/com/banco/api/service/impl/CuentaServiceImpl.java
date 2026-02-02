@@ -51,13 +51,13 @@ public class CuentaServiceImpl implements CuentaService {
 
 	@Override
 	public Cuenta obtenerCuentaPorNumero(String numeroCuenta) {
-		return cuentaRepository.findByNumeroCuenta(numeroCuenta)
+		return cuentaRepository.findByNumeroCuentaFetchCliente(numeroCuenta)
 				.orElseThrow(() -> new NotFoundException("Cuenta no encontrada"));
 	}
 
 	@Override
 	public List<Cuenta> listarCuentasPorCliente(Long clienteId) {
-		return cuentaRepository.findByClienteId(clienteId);
+		return cuentaRepository.findByClienteIdFetchCliente(clienteId);
 	}
 
 	@Override
@@ -81,6 +81,11 @@ public class CuentaServiceImpl implements CuentaService {
 		cuenta.setEstado(EstadoCuenta.INACTIVA);
         cuentaRepository.save(cuenta);
 		
+	}
+
+	@Override
+	public List<Cuenta> listarCuentas() {
+		return cuentaRepository.findAllWithCliente();
 	}
 
 }

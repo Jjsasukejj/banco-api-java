@@ -76,4 +76,12 @@ public class CuentaController {
     public void eliminarCuenta(@PathVariable String numeroCuenta) {
         cuentaService.eliminarCuenta(numeroCuenta);
     }
+    
+    @GetMapping
+    public List<CuentaResponse> listarCuentas() {
+        return cuentaService.listarCuentas()
+        		.stream()
+        		.map(CuentaMapper::toResponse)
+        		.toList();
+    }
 }

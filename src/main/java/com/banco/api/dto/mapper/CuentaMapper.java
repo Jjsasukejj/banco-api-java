@@ -15,6 +15,7 @@ public class CuentaMapper {
         response.setSaldo(cuenta.getSaldo());
         response.setEstado(cuenta.getEstado());
         response.setClienteId(cuenta.getCliente().getId());
+        response.setClienteNombre(cuenta.getCliente().getNombre());
 
         return response;
 	}

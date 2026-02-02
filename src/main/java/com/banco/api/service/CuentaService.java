@@ -39,4 +39,9 @@ public interface CuentaService {
      * @param numeroCuenta
      */
     void eliminarCuenta(String numeroCuenta);
+    /**
+     * Interfaz para listar todas las cuentas
+     * @param numeroCuenta
+     */
+    List<Cuenta> listarCuentas();
 }

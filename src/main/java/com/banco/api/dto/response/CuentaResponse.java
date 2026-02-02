@@ -13,6 +13,7 @@ public class CuentaResponse {
     private BigDecimal saldo;
     private EstadoCuenta estado;
     private Long clienteId;
+    private String clienteNombre;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -31,4 +32,7 @@ public class CuentaResponse {
 
     public Long getClienteId() { return clienteId; }
     public void setClienteId(Long clienteId) { this.clienteId = clienteId; }
+    
+    public String getClienteNombre() { return clienteNombre; }
+    public void setClienteNombre(String clienteNombre) { this.clienteNombre = clienteNombre; }
 }
